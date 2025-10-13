@@ -7,5 +7,6 @@ package Presentacion;
 public class PruebaLocoMath {
     public static void main(String[] args) {
         System.out.println("Hola Fio, probando");
+        System.out.println("Hola Moni, probando");
     }
 }
