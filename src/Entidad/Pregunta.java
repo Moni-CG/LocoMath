@@ -5,18 +5,21 @@ package Entidad;
  * @author Fio
  */
 public class Pregunta {
+
     private Operacion operacion;
     private Resultado resultado;
 
-    public Pregunta(Resultado resultado) {
+    public Pregunta(Operacion operacion, Resultado resultado) {
         this.resultado = resultado;
-        this.operacion = new Operacion(); // genera una operación aleatoria
+        this.operacion = operacion; // obtenemos la operación aleatoria
     }
 
     public boolean verificarRespuesta() {
-        boolean correcta = resultado.getRespuesta() == operacion.getResultado();
-        resultado.setEsCorrecta(correcta);
-        return correcta;
+        if (resultado.getRespuesta() == operacion.getResultado()) {
+            resultado.setEsCorrecta(true);
+            return true;
+        }
+        return false;
     }
 
     public Operacion getOperacion() {
@@ -25,5 +28,5 @@ public class Pregunta {
 
     public void mostrarPregunta() {
         System.out.println("Resuelve: " + operacion.toString());
-    } 
+    }
 }
