@@ -2,7 +2,7 @@ package Entidad;
 
 /**
  *
- * @author MONIC
+ * @author Moni
  */
 public class Jugador {
     private int idJugador;

@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  *
- * @author fioli
+ * @author Fio
  */
 public class Operacion {
 
