@@ -5,7 +5,8 @@ package Entidad;
  * @author Fio
  */
 public class Resultado {
-   private String nombreJugador;
+
+    private String nombreJugador;
     private int respuesta;
     private boolean esCorrecta;
 
@@ -29,5 +30,5 @@ public class Resultado {
 
     public void setEsCorrecta(boolean esCorrecta) {
         this.esCorrecta = esCorrecta;
-    } 
+    }
 }

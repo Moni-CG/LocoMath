@@ -15,8 +15,12 @@ public class Operacion {
     Random random;
 
     public Operacion() {
-        generarOperacionRandom();
+        primerNumero = 0;
+        segundoNumero = 0;
+        resultado = 0;
+        operacion = "";
         random = new Random();
+        generarOperacionRandom();
     }
 
     //setters y getters
