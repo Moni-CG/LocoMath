@@ -6,14 +6,14 @@ package Entidad;
  */
 public class Pregunta {
 
+    private int idPregunta;
     private Operacion operacion;
-    private Resultado resultado;
     private int primerNumero;
     private int segundoNumero;
     private String tipoOperacion;
 
-    public Pregunta(Operacion operacion, Resultado resultado) {
-        this.resultado = resultado;
+    public Pregunta(int idPregunta, Operacion operacion) {
+        this.idPregunta = idPregunta;
         this.operacion = operacion; // obtenemos la operación aleatoria
         setPrimerNumero();
         setSegundoNumero();
@@ -21,17 +21,18 @@ public class Pregunta {
     }
     
     //setters and getters
+
+    public int getIdPregunta() {
+        return idPregunta;
+    }
+
+    public void setIdPregunta(int idPregunta) {
+        this.idPregunta = idPregunta;
+    }
+    
     public Operacion getOperacion() {
         return operacion;
     }    
-
-    public Resultado getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(Resultado resultado) {
-        this.resultado = resultado;
-    }
 
     public int getPrimerNumero() {
         return primerNumero;
@@ -56,12 +57,9 @@ public class Pregunta {
     public void setTipoOperacion() {
         this.tipoOperacion = operacion.getOperacion();
     }
-    
-    
 
-    public boolean verificarRespuesta() {
-        if (resultado.getRespuesta() == operacion.getResultado()) {
-            resultado.setEsCorrecta(true);
+    public boolean verificarRespuesta(int respuesta) {
+        if (respuesta == operacion.getResultado()) {
             return true;
         }
         return false;
@@ -69,7 +67,7 @@ public class Pregunta {
 
     @Override
     public String toString() {
-        return "Pregunta{" + primerNumero + " " + tipoOperacion + " " + segundoNumero + '}';
+        return "Pregunta" + idPregunta + "(" + primerNumero + " " + tipoOperacion + " " + segundoNumero + '}';
     }
     
     
