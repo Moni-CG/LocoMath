@@ -67,7 +67,7 @@ public class Pregunta {
 
     @Override
     public String toString() {
-        return "Pregunta" + idPregunta + "(" + primerNumero + " " + tipoOperacion + " " + segundoNumero + '}';
+        return "Pregunta " + idPregunta + "(" + primerNumero + " " + tipoOperacion + " " + segundoNumero + '}';
     }
     
     
