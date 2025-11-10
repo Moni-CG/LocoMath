@@ -77,7 +77,7 @@ public class Operacion {
     }
 
     private int multiplicacion() {
-        operacion = "×";
+        operacion = "x";
         primerNumero = random.nextInt(10) + 1;
         segundoNumero = random.nextInt(10) + 1;
         resultado = primerNumero * segundoNumero;
@@ -85,7 +85,7 @@ public class Operacion {
     }
 
     public int division() {
-        operacion = "÷";
+        operacion = "/";
         segundoNumero = random.nextInt(10) + 1;
         int multiplo = random.nextInt(10) + 1;
         primerNumero = segundoNumero * multiplo; //division mediante multiplos para que sea exacto

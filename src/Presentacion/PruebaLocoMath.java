@@ -14,5 +14,10 @@ public class PruebaLocoMath {
         
         System.out.println(pregunta1);
         
+        Resultado resultado = new Resultado(1, 2);
+        
+        System.out.println(pregunta1.verificarRespuesta(resultado));
+        
+        
     }
 }

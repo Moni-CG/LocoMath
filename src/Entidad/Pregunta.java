@@ -58,8 +58,8 @@ public class Pregunta {
         this.tipoOperacion = operacion.getOperacion();
     }
 
-    public boolean verificarRespuesta(int respuesta) {
-        if (respuesta == operacion.getResultado()) {
+    public boolean verificarRespuesta(Resultado resultado) {
+        if (resultado.getRespuesta() == operacion.getResultado()) {
             return true;
         }
         return false;
@@ -67,7 +67,11 @@ public class Pregunta {
 
     @Override
     public String toString() {
-        return "Pregunta " + idPregunta + "(" + primerNumero + " " + tipoOperacion + " " + segundoNumero + '}';
+        return primerNumero + " " + tipoOperacion + " " + segundoNumero;
+    }
+    
+    public String toStringIdPregunta(){
+        return "Pregunta " + idPregunta;
     }
     
     
