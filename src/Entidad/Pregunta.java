@@ -14,7 +14,7 @@ public class Pregunta {
 
     public Pregunta(int idPregunta, Operacion operacion) {
         this.idPregunta = idPregunta;
-        this.operacion = operacion; // obtenemos la operación aleatoria
+        this.operacion = operacion; 
         setPrimerNumero();
         setSegundoNumero();
         setTipoOperacion();
