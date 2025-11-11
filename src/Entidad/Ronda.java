@@ -39,7 +39,7 @@ public class Ronda {
      * Permite a un jugador responder la pregunta.
      * Se actualiza su puntaje y se marca que ya respondió.
      */
-    public void responder(Jugador jugador, int respuesta) {
+    public void responder(Jugador jugador, Resultado respuesta) {
         if (finalizada || !temporizador.isEnCurso()) {
             System.out.println("Tiempo terminado o ronda finalizada. No se puede responder.");
             return;
