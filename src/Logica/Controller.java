@@ -42,7 +42,7 @@ public class Controller implements ActionListener {
     private void nuevaPregunta() {
         Operacion operacion = new Operacion();
         preguntaActual = new Pregunta(contadorPreguntas, operacion);
-        gui.setLblIdPregunta(preguntaActual.toStringIdPregunta());
+        gui.setLblIdRonda("");
         gui.setLblPregunta(preguntaActual.toString());
         gui.setTxtResultadoUsuario("");
     }

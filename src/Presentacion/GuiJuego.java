@@ -22,12 +22,12 @@ public class GuiJuego extends javax.swing.JFrame {
         this.btnEnviar = btnEnviar;
     }
 
-    public JLabel getLblIdPregunta() {
-        return lblIdPregunta;
+    public String getLblIdRonda() {
+        return lblIdRonda.getText();
     }
 
-    public void setLblIdPregunta(String lblPregunta) {
-        this.lblIdPregunta.setText(lblPregunta);
+    public void setLblIdRonda(String lblIdRonda) {
+        this.lblIdRonda.setText(lblIdRonda);
     }
 
     public String getLblPregunta() {
@@ -62,17 +62,19 @@ public class GuiJuego extends javax.swing.JFrame {
         lblPregunta = new javax.swing.JLabel();
         txtResultadoUsuario = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
-        lblIdPregunta = new javax.swing.JLabel();
+        lblIdRonda = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblPregunta.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         lblPregunta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        txtResultadoUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnEnviar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEnviar.setText("Enviar");
 
-        lblIdPregunta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblIdRonda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout panelJuegoLayout = new javax.swing.GroupLayout(panelJuego);
         panelJuego.setLayout(panelJuegoLayout);
@@ -88,7 +90,7 @@ public class GuiJuego extends javax.swing.JFrame {
                 .addContainerGap(208, Short.MAX_VALUE)
                 .addGroup(panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelJuegoLayout.createSequentialGroup()
-                        .addComponent(lblIdPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblIdRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(218, 218, 218))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelJuegoLayout.createSequentialGroup()
                         .addComponent(lblPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,7 +100,7 @@ public class GuiJuego extends javax.swing.JFrame {
             panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJuegoLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(lblIdPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblIdRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
                 .addComponent(lblPregunta, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addGap(63, 63, 63)
@@ -125,7 +127,7 @@ public class GuiJuego extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JLabel lblIdPregunta;
+    private javax.swing.JLabel lblIdRonda;
     private javax.swing.JLabel lblPregunta;
     private javax.swing.JPanel panelJuego;
     private javax.swing.JTextField txtResultadoUsuario;
