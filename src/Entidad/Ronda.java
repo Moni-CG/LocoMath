@@ -98,5 +98,11 @@ public class Ronda {
         temporizador.detener();
         System.out.println("Ronda " + idRonda + " finalizada.");
     }
+
+    public String mostrarIdRonda() {
+        return "Ronda #" + idRonda;
+    }
+    
+    
     
 }
