@@ -48,47 +48,48 @@ public class Login extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 0, 0));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(10, 10, 10, 10, new java.awt.Color(0, 204, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(10, 10, 10, 10, new java.awt.Color(0, 204, 204)));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Light", 3, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel3.setFont(new java.awt.Font("Bauhaus 93", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 204, 153));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("LocoMath");
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 51));
+        jLabel2.setForeground(new java.awt.Color(204, 204, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Contraseña");
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 255, 0));
+        jLabel1.setForeground(new java.awt.Color(204, 204, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Nombre");
 
         jtxNombre.setBackground(new java.awt.Color(0, 0, 0));
         jtxNombre.setForeground(new java.awt.Color(255, 255, 255));
         jtxNombre.setText("Ingresar nombre");
-        jtxNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 204, 0), new java.awt.Color(0, 204, 0)));
+        jtxNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
+        jtxNombre.setSelectionColor(new java.awt.Color(0, 153, 153));
 
         jtxContrasena.setBackground(new java.awt.Color(0, 0, 0));
         jtxContrasena.setForeground(new java.awt.Color(255, 255, 255));
         jtxContrasena.setText("Ingresar contraseña");
-        jtxContrasena.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 204, 0), new java.awt.Color(0, 204, 0)));
+        jtxContrasena.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
 
         btnRegistrar.setBackground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnRegistrar.setForeground(new java.awt.Color(0, 255, 0));
+        btnRegistrar.setForeground(new java.awt.Color(0, 204, 153));
         btnRegistrar.setText("Registrar");
-        btnRegistrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0)));
+        btnRegistrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
 
         btnIngresar.setBackground(new java.awt.Color(0, 0, 0));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnIngresar.setForeground(new java.awt.Color(0, 255, 0));
+        btnIngresar.setForeground(new java.awt.Color(0, 204, 153));
         btnIngresar.setText("Ingresar");
-        btnIngresar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0), new java.awt.Color(0, 255, 0)));
+        btnIngresar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
