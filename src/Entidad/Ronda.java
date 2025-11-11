@@ -1,6 +1,7 @@
 package Entidad;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -99,14 +100,17 @@ public class Ronda {
 
     private void pasarASiguientePregunta() {
         temporizador.detener(); // Detener el temporizador actual
+
         if (preguntaActual < 5) {
             preguntaActual++;
-            // Reiniciar el array de respuestas para la nueva pregunta
-            for (int i = 0; i < jugadoresRespondieron.length; i++) {
-                jugadoresRespondieron[i] = false;
-            }
+
+            // Reiniciar respuestas
+            Arrays.fill(jugadoresRespondieron, false);
+
+            // Crear un nuevo temporizador para la siguiente pregunta
+            temporizador = new Temporizador(20); // duración fija o variable
             mostrarPreguntaActual();
-            temporizador.iniciar(); // Iniciar temporizador para la nueva pregunta
+            temporizador.iniciar();
         } else {
             finalizarRonda();
         }
