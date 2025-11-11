@@ -22,6 +22,8 @@ public class Controller implements ActionListener {
     private int contadorPreguntas = 1;
     private Temporizador temporizador;
     private Timer timerVisual; // actualiza la GUI
+    private Ronda rondaActual;
+    private Jugador[] jugadores;
 
     public Controller() {
         gui = new GuiJuego();
@@ -44,9 +46,13 @@ public class Controller implements ActionListener {
 
     // crea nueva ronda con su pregunta y tiempo
     private void nuevaRonda() {
-        int duracionSegundos = 10; // puedes cambiarlo
+        int duracionSegundos = 120; //duracion de la ronda
+        jugadores = new Jugador[]{new Jugador(1, "Fio")};
+        rondaActual = new Ronda(contadorPreguntas, jugadores, duracionSegundos);
         Operacion operacion = new Operacion();
-        preguntaActual = new Pregunta(contadorPreguntas, operacion);
+
+        rondaActual.iniciarRonda();
+        preguntaActual = rondaActual.getPreguntaActual();
 
         gui.setLblRonda("Ronda: " + contadorPreguntas);
         gui.setLblPregunta(preguntaActual.toString());
@@ -89,21 +95,19 @@ public class Controller implements ActionListener {
     public void verificarRespuesta() {
         try {
             int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario());
-
-            //como prueba agregamos por ahora id de jugador 1
             Resultado resultado = new Resultado(1, respuestaUsuario);
+            rondaActual.responder(jugadores[0], resultado);
 
-            boolean correcta = preguntaActual.verificarRespuesta(resultado);
-
-            if (correcta) {
-                JOptionPane.showMessageDialog(gui, "¡Correcto!");
+            if (rondaActual.isFinalizada()) {
+                contadorPreguntas++;
+                JOptionPane.showMessageDialog(gui, "Ronda finalizada. ¡Nueva ronda!");
+                nuevaRonda();
             } else {
-                JOptionPane.showMessageDialog(gui, "Incorrecto. La respuesta era: "
-                        + preguntaActual.getOperacion().getResultado());
+                // Mostrar siguiente pregunta
+                Pregunta p = rondaActual.getPreguntaActual();
+                gui.setLblPregunta(p.toString());
+                gui.setTxtResultadoUsuario("");
             }
-
-            contadorPreguntas++;
-            nuevaRonda(); // genera una nueva pregunta
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(gui, "Por favor ingresa un número válido.");
         }

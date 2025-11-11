@@ -1,12 +1,17 @@
 package Entidad;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Moni
  */
 public class Ronda {
+
     private int idRonda;
-    private Pregunta pregunta;
+    private List<Pregunta> preguntas;
+    private int preguntaActualIndex;
     private Jugador[] jugadores;
     private boolean finalizada;
     private Temporizador temporizador;
@@ -15,14 +20,27 @@ public class Ronda {
     public Ronda(int idRonda, Jugador[] jugadores, int duracionSegundos) {
         this.idRonda = idRonda;
         this.jugadores = jugadores;
-        this.pregunta = new Pregunta(idRonda, new Operacion());
+        this.preguntas = new ArrayList<>();
         this.temporizador = new Temporizador(duracionSegundos);
         this.finalizada = false;
         this.jugadoresRespondieron = new boolean[jugadores.length];
+
+        generarPreguntas();
+        this.preguntaActualIndex = 0;
     }
 
-    public Pregunta getPregunta() {
-        return pregunta;
+    //cada ronda tiene 6 preguntas
+    private void generarPreguntas() {
+        for (int i = 0; i < 6; i++) {
+            preguntas.add(new Pregunta(i + 1, new Operacion()));
+        }
+    }
+
+    public Pregunta getPreguntaActual() {
+        if (preguntaActualIndex < preguntas.size()) {
+            return preguntas.get(preguntaActualIndex);
+        }
+        return null;
     }
 
     public boolean isFinalizada() {
@@ -31,13 +49,22 @@ public class Ronda {
 
     public void iniciarRonda() {
         System.out.println("===Ronda " + idRonda + " ===");
-        System.out.println("Pregunta: " + pregunta.toString());
+        mostrarPreguntaActual();
         temporizador.iniciar();
+    }
+    
+     public void mostrarPreguntaActual() {
+        Pregunta p = getPreguntaActual();
+        if (p != null) {
+            System.out.println("Pregunta " + (preguntaActualIndex + 1) + ": " + p);
+        } else {
+            finalizarRonda();
+        }
     }
 
     /**
-     * Permite a un jugador responder la pregunta.
-     * Se actualiza su puntaje y se marca que ya respondió.
+     * Permite a un jugador responder la pregunta. Se actualiza su puntaje y se
+     * marca que ya respondió.
      */
     public void responder(Jugador jugador, Resultado respuesta) {
         if (finalizada || !temporizador.isEnCurso()) {
@@ -56,11 +83,11 @@ public class Ronda {
             return;
         }
 
-        boolean correcto = pregunta.verificarRespuesta(respuesta);
+        boolean correcto = getPreguntaActual().verificarRespuesta(respuesta);
 
         if (correcto) {
             jugador.setAciertos(jugador.getAciertos() + 1);
-            jugador.setPuntaje(jugador.getPuntaje() + 10); 
+            jugador.setPuntaje(jugador.getPuntaje() + 10);
             System.out.println("✅ " + jugador.getUsuario() + " respondió correctamente!");
         } else {
             jugador.setErrores(jugador.getErrores() + 1);
@@ -71,6 +98,19 @@ public class Ronda {
         jugadoresRespondieron[index] = true;
 
         if (todosRespondieron()) {
+            siguientePregunta();
+        }
+    }
+    
+    private void siguientePregunta() {
+        preguntaActualIndex++;
+        for (int i = 0; i < jugadoresRespondieron.length; i++) {
+            jugadoresRespondieron[i] = false; // reiniciamos para la nueva pregunta
+        }
+
+        if (preguntaActualIndex < preguntas.size()) {
+            mostrarPreguntaActual();
+        } else {
             finalizarRonda();
         }
     }
@@ -102,7 +142,5 @@ public class Ronda {
     public String mostrarIdRonda() {
         return "Ronda #" + idRonda;
     }
-    
-    
-    
+
 }
