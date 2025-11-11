@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Logica;
 
 import Presentacion.*;
@@ -44,7 +41,7 @@ public class Controller implements ActionListener {
 
     // crea nueva ronda con su pregunta y tiempo
     private void nuevaRonda() {
-        int duracionSegundos = 10; // puedes cambiarlo
+        int duracionSegundos = 20; 
         Operacion operacion = new Operacion();
         preguntaActual = new Pregunta(contadorPreguntas, operacion);
 
