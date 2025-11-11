@@ -27,8 +27,8 @@ public class Controller implements ActionListener {
 
     public Controller() {
         gui = new GuiJuego();
-        initEvents();
         nuevaRonda();
+        initEvents();
         gui.setVisible(true);
     }
 
@@ -46,7 +46,7 @@ public class Controller implements ActionListener {
 
     // crea nueva ronda con su pregunta y tiempo
     private void nuevaRonda() {
-        int duracionSegundos = 120; //duracion de la ronda
+        int duracionSegundos = 20; //duracion para cada pregunta
         jugadores = new Jugador[]{new Jugador(1, "Fio")};
         rondaActual = new Ronda(contadorPreguntas, jugadores, duracionSegundos);
         Operacion operacion = new Operacion();
