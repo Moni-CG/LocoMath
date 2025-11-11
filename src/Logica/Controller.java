@@ -8,6 +8,8 @@ import Presentacion.*;
 import Entidad.*;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
+import java.util.*;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -18,11 +20,13 @@ public class Controller implements ActionListener {
     private GuiJuego gui;
     private Pregunta preguntaActual;
     private int contadorPreguntas = 1;
+    private Temporizador temporizador;
+    private Timer timerVisual; // actualiza la GUI
 
     public Controller() {
         gui = new GuiJuego();
         initEvents();
-        nuevaPregunta();
+        nuevaRonda();
         gui.setVisible(true);
     }
 
@@ -38,20 +42,54 @@ public class Controller implements ActionListener {
         }
     }
 
-    //generar nueva pregunta para los jugadores
-    private void nuevaPregunta() {
+    // crea nueva ronda con su pregunta y tiempo
+    private void nuevaRonda() {
+        int duracionSegundos = 10; // puedes cambiarlo
         Operacion operacion = new Operacion();
         preguntaActual = new Pregunta(contadorPreguntas, operacion);
-        gui.setLblRonda("");
+
+        gui.setLblRonda("Ronda: " + contadorPreguntas);
         gui.setLblPregunta(preguntaActual.toString());
         gui.setTxtResultadoUsuario("");
+        iniciarTemporizador(duracionSegundos);
+    }
+
+    private void iniciarTemporizador(int duracion) {
+        if (temporizador != null) {
+            temporizador.detener();
+        }
+        if (timerVisual != null) {
+            timerVisual.cancel();
+        }
+
+        temporizador = new Temporizador(duracion);
+        temporizador.iniciar();
+
+        timerVisual = new Timer();
+        timerVisual.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                SwingUtilities.invokeLater(() -> {
+                    gui.setLblTiempo("Tiempo: " + temporizador.getTiempoRestante() + "s");
+                });
+
+                if (!temporizador.isEnCurso()) {
+                    timerVisual.cancel();
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(gui, "¡Tiempo agotado!");
+                        contadorPreguntas++;
+                        nuevaRonda();
+                    });
+                }
+            }
+        }, 0, 1000);
     }
 
     //se verificara la respuesta que brinda el usuario con la pregunta
     public void verificarRespuesta() {
         try {
             int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario());
-            
+
             //como prueba agregamos por ahora id de jugador 1
             Resultado resultado = new Resultado(1, respuestaUsuario);
 
@@ -65,7 +103,7 @@ public class Controller implements ActionListener {
             }
 
             contadorPreguntas++;
-            nuevaPregunta(); // genera una nueva pregunta
+            nuevaRonda(); // genera una nueva pregunta
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(gui, "Por favor ingresa un número válido.");
         }

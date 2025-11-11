@@ -39,7 +39,7 @@ public class Temporizador implements Runnable  {
     public void run() {
         try {
             while (enCurso && tiempoRestante > 0) {
-                System.out.println("Tiempo restante: " + tiempoRestante + "s");
+                //System.out.println("Tiempo restante: " + tiempoRestante + "s");
                 Thread.sleep(1000);
                 tiempoRestante--;
             }
@@ -49,7 +49,7 @@ public class Temporizador implements Runnable  {
 
         if (tiempoRestante <= 0) {
             enCurso = false;
-            System.out.println("¡Se agotó el tiempo!");
+            //System.out.println("¡Se agotó el tiempo!");
         }
     }
     
