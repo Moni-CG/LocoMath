@@ -11,19 +11,55 @@ import java.util.ArrayList;
  * @author fioli
  */
 public class RondaPrueba {
-    
-   private int idRonda;
-   ArrayList<Pregunta> listaPreguntas;
-   ArrayList<Jugador> listaJugadores;
-   private Temporizador temporizador;
+
+    private int idRonda;
+    private ArrayList<Pregunta> listaPreguntas;
+    private ArrayList<Jugador> listaJugadores;
+    private Temporizador temporizador;
+    private String[] operacionesRonda;
 
     public RondaPrueba(int idRonda, ArrayList<Jugador> listaJugadores, Temporizador temporizador) {
         this.idRonda = idRonda;
         this.listaJugadores = listaJugadores;
         this.temporizador = temporizador;
-        listaPreguntas = new ArrayList<>();
+        listaPreguntas = new ArrayList<>(6);
     }
-    
-    
-   
+
+    public void asignarOperacionesPorRonda(int idRonda) {
+        
+        switch (idRonda) {
+            case 1:
+                operacionesRonda = new String[]{"+", "+", "+", "+", "+", "+"};
+                break;
+            case 2:
+                operacionesRonda = new String[]{"+", "+", "-", "+", "+", "-"};
+                break;
+            case 3:
+                operacionesRonda = new String[]{"+", "-", "+", "-", "+", "-"};
+                break;
+            case 4:
+                operacionesRonda = new String[]{"+", "+", "-", "-", "x", "x"};
+                break;
+            case 5:
+                operacionesRonda = new String[]{"+", "+", "-", "-", "x", "x"};
+                break;
+            case 6:
+                operacionesRonda = new String[]{"x", "x", "x", "/", "/", "/"};
+                break;
+            case 7:
+                operacionesRonda = new String[]{"+", "+", "x", "x", "/", "/"};
+                break;
+            case 8:
+                operacionesRonda = new String[]{"-", "-", "x", "x", "/", "/"};
+                break;
+            case 9:
+                operacionesRonda = new String[]{"+", "-", "-", "x", "x", "/"};
+                break;
+            case 10:
+                operacionesRonda = new String[]{"+", "-", "x", "x", "/", "/"};
+                break;
+        }
+        
+    }
+
 }
