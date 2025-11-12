@@ -70,9 +70,5 @@ public class Pregunta {
         return primerNumero + " " + tipoOperacion + " " + segundoNumero;
     }
     
-    public String toStringIdPregunta(){
-        return "Pregunta " + idPregunta;
-    }
-    
     
 }

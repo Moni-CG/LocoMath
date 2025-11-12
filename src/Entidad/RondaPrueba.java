@@ -4,10 +4,17 @@
  */
 package Entidad;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author fioli
  */
 public class RondaPrueba {
     
+   private int idRonda;
+   ArrayList<Pregunta> listaPreguntas;
+   ArrayList<Jugador> listaJugadores;
+   private Temporizador temporizador;
+   
 }
