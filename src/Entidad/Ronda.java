@@ -45,13 +45,9 @@ public class Ronda {
 
     public void iniciarRonda() {
         System.out.println("===Ronda " + idRonda + " ===");
-        mostrarPreguntaActual();
         temporizador.iniciar(); // Iniciar temporizador para la primera pregunta
     }
 
-    private void mostrarPreguntaActual() {
-        System.out.println("Pregunta " + (preguntaActual + 1) + ": " + preguntas[preguntaActual].toString());
-    }
 
     public void responder(Jugador jugador, Resultado respuesta) {
         if (finalizada) {
@@ -109,7 +105,6 @@ public class Ronda {
 
             // Crear un nuevo temporizador para la siguiente pregunta
             temporizador = new Temporizador(20); // duración fija o variable
-            mostrarPreguntaActual();
             temporizador.iniciar();
         } else {
             finalizarRonda();
