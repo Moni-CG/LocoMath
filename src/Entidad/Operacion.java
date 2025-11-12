@@ -20,7 +20,6 @@ public class Operacion {
         resultado = 0;
         operacion = "";
         random = new Random();
-        generarOperacionRandom();
     }
 
     //setters y getters
@@ -58,7 +57,6 @@ public class Operacion {
 
     //operaciones aritmeticas
     private int suma() {
-        operacion = "+";
         primerNumero = random.nextInt(100) + 1;
         segundoNumero = random.nextInt(100) + 1;
         resultado = primerNumero + segundoNumero;
@@ -66,7 +64,6 @@ public class Operacion {
     }
 
     private int resta() {
-        operacion = "-";
         do {
             primerNumero = random.nextInt(100) + 1;
             segundoNumero = random.nextInt(100) + 1;
@@ -77,7 +74,6 @@ public class Operacion {
     }
 
     private int multiplicacion() {
-        operacion = "x";
         primerNumero = random.nextInt(10) + 1;
         segundoNumero = random.nextInt(10) + 1;
         resultado = primerNumero * segundoNumero;
@@ -85,7 +81,6 @@ public class Operacion {
     }
 
     public int division() {
-        operacion = "/";
         segundoNumero = random.nextInt(10) + 1;
         int multiplo = random.nextInt(10) + 1;
         primerNumero = segundoNumero * multiplo; //division mediante multiplos para que sea exacto
@@ -94,24 +89,24 @@ public class Operacion {
     }
 
     // verifica cual operacion se va realizar
-    private void generarOperacionRandom() {
+    private void generarOperacion(String operacion) {
+        
+        this.operacion = operacion;
 
-        int tipo = random.nextInt(4); // 0 = suma, 1 = resta, 2 = multiplicación, 3 = división
-
-        switch (tipo) {
-            case 0:
+        switch (operacion) {
+            case "+":
                 suma();
                 break;
 
-            case 1:
+            case "-":
                 resta();
                 break;
 
-            case 2:
+            case "x":
                 multiplicacion();
                 break;
 
-            case 3:
+            case "/":
                 division();
                 break;
         }
