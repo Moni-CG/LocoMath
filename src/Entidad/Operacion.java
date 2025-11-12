@@ -56,14 +56,14 @@ public class Operacion {
     }
 
     //operaciones aritmeticas
-    private int suma() {
+    public int suma() {
         primerNumero = random.nextInt(100) + 1;
         segundoNumero = random.nextInt(100) + 1;
         resultado = primerNumero + segundoNumero;
         return resultado;
     }
 
-    private int resta() {
+    public int resta() {
         do {
             primerNumero = random.nextInt(100) + 1;
             segundoNumero = random.nextInt(100) + 1;
@@ -73,7 +73,7 @@ public class Operacion {
         return resultado;
     }
 
-    private int multiplicacion() {
+    public int multiplicacion() {
         primerNumero = random.nextInt(10) + 1;
         segundoNumero = random.nextInt(10) + 1;
         resultado = primerNumero * segundoNumero;
@@ -89,7 +89,7 @@ public class Operacion {
     }
 
     // verifica cual operacion se va realizar
-    private void generarOperacion(String operacion) {
+    public void generarOperacion(String operacion) {
         
         this.operacion = operacion;
 

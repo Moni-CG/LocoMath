@@ -14,10 +14,7 @@ public class Pregunta {
 
     public Pregunta(int idPregunta, Operacion operacion) {
         this.idPregunta = idPregunta;
-        this.operacion = operacion; 
-        setPrimerNumero();
-        setSegundoNumero();
-        setTipoOperacion();
+        this.operacion = operacion;
     }
     
     //setters and getters
@@ -63,6 +60,13 @@ public class Pregunta {
             return true;
         }
         return false;
+    }
+    
+    public void generarOperacion(String tipoOperacion){
+        operacion.generarOperacion(tipoOperacion);
+        setPrimerNumero();
+        setSegundoNumero();
+        setTipoOperacion();
     }
 
     @Override
