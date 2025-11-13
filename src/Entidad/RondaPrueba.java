@@ -71,6 +71,7 @@ public class RondaPrueba {
             Pregunta pregunta = new Pregunta(i + 1);
             pregunta.generarOperacion(operacionesRonda[i]);
             listaPreguntas.add(pregunta);
+            System.out.println(pregunta.toString() + "\n");
         }
 
     }

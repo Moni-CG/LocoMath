@@ -4,6 +4,7 @@ package Entidad;
  *
  * @author Fio
  */
+
 public class Pregunta {
 
     private int idPregunta;

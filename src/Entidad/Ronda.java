@@ -22,9 +22,9 @@ public class Ronda {
         this.idRonda = idRonda;
         this.jugadores = jugadores;
         this.preguntas = new Pregunta[6]; // Crear 6 preguntas
-        for (int i = 0; i < 6; i++) {
-            this.preguntas[i] = new Pregunta(idRonda * 10 + i, new Operacion()); // Asumiendo un ID único para cada pregunta
-        }
+        //for (int i = 0; i < 6; i++) {
+          //  this.preguntas[i] = new Pregunta(idRonda * 10 + i, new Operacion()); // Asumiendo un ID único para cada pregunta
+        //}
         this.preguntaActual = 0;
         this.temporizador = new Temporizador(duracionSegundos);
         this.finalizada = false;
