@@ -26,7 +26,7 @@ public class RondaPrueba {
     }
 
     public void asignarOperacionesPorRonda(int idRonda) {
-        
+
         switch (idRonda) {
             case 1:
                 operacionesRonda = new String[]{"+", "+", "+", "+", "+", "+"};
@@ -59,7 +59,20 @@ public class RondaPrueba {
                 operacionesRonda = new String[]{"+", "-", "x", "x", "/", "/"};
                 break;
         }
+
+    }
+
+    public void generarPreguntas(int idRonda) {
         
+        asignarOperacionesPorRonda(idRonda); //Asigna operaciones de la ronda
+        listaPreguntas.clear(); //limpia la lista de preguntas
+
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            Pregunta pregunta = new Pregunta(i + 1);
+            pregunta.generarOperacion(operacionesRonda[i]);
+            listaPreguntas.add(pregunta);
+        }
+
     }
 
 }

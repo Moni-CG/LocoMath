@@ -12,9 +12,9 @@ public class Pregunta {
     private int segundoNumero;
     private String tipoOperacion;
 
-    public Pregunta(int idPregunta, Operacion operacion) {
+    public Pregunta(int idPregunta) {
         this.idPregunta = idPregunta;
-        this.operacion = operacion;
+        this.operacion = new Operacion();
     }
     
     //setters and getters
