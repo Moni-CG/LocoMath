@@ -70,13 +70,11 @@ public class Login extends javax.swing.JFrame {
 
         jtxNombre.setBackground(new java.awt.Color(0, 0, 0));
         jtxNombre.setForeground(new java.awt.Color(255, 255, 255));
-        jtxNombre.setText("Ingresar nombre");
         jtxNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
         jtxNombre.setSelectionColor(new java.awt.Color(0, 153, 153));
 
         jtxContrasena.setBackground(new java.awt.Color(0, 0, 0));
         jtxContrasena.setForeground(new java.awt.Color(255, 255, 255));
-        jtxContrasena.setText("Ingresar contraseña");
         jtxContrasena.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 255), new java.awt.Color(255, 204, 255)));
 
         btnRegistrar.setBackground(new java.awt.Color(0, 0, 0));
