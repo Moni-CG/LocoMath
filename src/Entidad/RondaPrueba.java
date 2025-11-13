@@ -89,16 +89,20 @@ public class RondaPrueba {
         }
     }
 
-    public void asignarPuntos(Jugador jugador) {
+    public boolean asignarPuntos(Jugador jugador, int respuesta) {
         if (temporizador.isTiempoAgotado()) {
-            return;
-        } //si se agoto tiempo no se asigna puntos
-
-        if (jugadorRespondio(jugador.getIdJugador())) {
-            String tipoOperacion = operacionesRonda[preguntaActual];
-            jugador.agregarPuntos(puntosOperacion(tipoOperacion));
-            reiniciarRespuestas();
+            return false;
         }
+
+        if (isRespuestaCorrecta(respuesta)) {
+            if (jugadorRespondio(jugador.getIdJugador())) {
+                String tipoOperacion = operacionesRonda[preguntaActual];
+                jugador.agregarPuntos(puntosOperacion(tipoOperacion));
+                reiniciarRespuestas();
+                return !avanzarPregunta(); // true = ronda terminada
+            }
+        }
+        return false;
     }
 
     public void reiniciarRespuestas() {
@@ -118,6 +122,7 @@ public class RondaPrueba {
         return 0;
     }
 
+    //verifica si un jugador respondio primero
     public boolean jugadorRespondio(int idJugador) {
         for (boolean respondio : jugadoresRespondieron) {
             if (respondio) {
@@ -128,19 +133,14 @@ public class RondaPrueba {
         return true;
     }
 
-    public void verificarTiempoPregunta() {
-        if (temporizador.isTiempoAgotado()) {
-            System.out.println("Se acabó el tiempo." + (preguntaActual + 1));
-            preguntaActual++;
-            if (preguntaActual < listaPreguntas.size()) {
-                temporizador.detener();
-                temporizador = new Temporizador(temporizador.getDuracion()); // reinicia el tiempo
-                temporizador.iniciar();
-                reiniciarRespuestas();
-                System.out.println("Nueva pregunta: " + mostrarPregunta());
-            } else {
-                System.out.println("Ronda terminada.");
-            }
+    public void reiniciarTiempo() {
+        if (temporizador != null) {
+            temporizador.detener(); // Detiene el temporizador actual
+            temporizador = new Temporizador(temporizador.getDuracion()); // Crea uno nuevo con la misma duración
+            temporizador.iniciar(); // Lo vuelve a iniciar
+            System.out.println("Temporizador reiniciado a " + temporizador.getDuracion() + " segundos.");
+        } else {
+            System.out.println("No hay un temporizador asignado para reiniciar.");
         }
     }
 
@@ -148,9 +148,13 @@ public class RondaPrueba {
         if (preguntaActual < listaPreguntas.size() - 1) {
             preguntaActual++;
             reiniciarRespuestas();
+            reiniciarTiempo();
             return true;
         }
-        return false; // Si no hay más preguntas, la ronda termina
+
+        // No hay más preguntas, marcar fin de ronda
+        preguntaActual = listaPreguntas.size();
+        return false;
     }
 
     public boolean isRespuestaCorrecta(int respuesta) {

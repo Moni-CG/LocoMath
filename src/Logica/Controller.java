@@ -4,159 +4,153 @@ import Presentacion.*;
 import Entidad.*;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
-import java.util.*;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import java.util.*;
 
 /**
- * Controlador principal del juego. Maneja la lógica del flujo de rondas,
- * preguntas, temporizador y respuestas del usuario.
- *
  * @author fioli
  */
 public class Controller implements ActionListener {
 
     private GuiJuego gui;
     private RondaPrueba rondaActual;
-    private Temporizador temporizador;
-    private Jugador jugador; // Asumiendo un solo jugador para simplicidad
-    private int contadorRondas = 1; // Inicia en ronda 1
-    private Timer timerActualizacion; // Timer de Swing para actualizar la GUI
+    private Jugador jugador;
+    private Timer timerGUI; // Timer para actualizar el label del tiempo
+    private int numRonda = 1; // ronda actual
 
     public Controller() {
         gui = new GuiJuego();
         initEvents();
-        inicializarJuego();
         gui.setVisible(true);
+        iniciarJuego();
     }
 
     /**
-     * Inicializa los eventos de la GUI.
+     * Inicializa los eventos de la interfaz.
      */
     private void initEvents() {
         gui.getBtnEnviar().addActionListener(this);
     }
 
     /**
-     * Inicializa el juego: crea el jugador, la primera ronda, genera preguntas,
-     * inicia el temporizador y muestra la ronda y pregunta inicial.
+     * Inicia el juego con la primera ronda y jugador.
      */
-    private void inicializarJuego() {
-        // Crear un jugador (puedes expandir para múltiples si es necesario)
-        this.jugador = new Jugador(1, "Jugador1"); // Asume que Jugador tiene constructor (int id, String nombre)
+    private void iniciarJuego() {
+        jugador = new Jugador(1, "Jugador 1");
 
-        // Crear lista de jugadores (solo uno por ahora)
-        ArrayList<Jugador> listaJugadores = new ArrayList<>();
-        listaJugadores.add(jugador);
+        Temporizador temporizador = new Temporizador(20); // duracion para cada 
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        jugadores.add(jugador);
 
-        // Crear temporizador (asume duración en segundos, ej. 30 segundos por pregunta)
-        this.temporizador = new Temporizador(30);
+        rondaActual = new RondaPrueba(numRonda, jugadores, temporizador);
+        rondaActual.generarPreguntas(numRonda);
 
-        // Crear primera ronda
-        this.rondaActual = new RondaPrueba(contadorRondas, listaJugadores, temporizador);
-        rondaActual.generarPreguntas(contadorRondas);
-
-        // Mostrar ronda y primera pregunta
-        mostrarRondaYPregunta();
-
-        // Iniciar temporizador y timer de actualización de GUI
-        temporizador.iniciar();
-        iniciarTimerActualizacion();
+        iniciarTemporizadorVisual();
+        actualizarVista();
     }
 
     /**
-     * Muestra la ronda actual y la pregunta actual en la GUI.
+     * Maneja el evento de los botones al dar click
      */
-    private void mostrarRondaYPregunta() {
-        gui.setLblRonda(rondaActual.mostrarRonda());
-        gui.setLblPregunta(rondaActual.mostrarPregunta());
-        gui.setTxtResultadoUsuario(""); // Limpiar campo de respuesta
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == gui.getBtnEnviar()) {
+            procesarRespuesta();
+        }
     }
 
     /**
-     * Inicia un Timer de Swing para actualizar el tiempo en la GUI cada segundo
-     * y verificar si el tiempo se agotó.
+     * Procesa la respuesta del usuario.
      */
-    private void iniciarTimerActualizacion() {
-        timerActualizacion = new Timer(1000, new ActionListener() {
+    private void procesarRespuesta() {
+        try {
+            int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
+
+            rondaActual.asignarPuntos(jugador, respuestaUsuario);
+            actualizarVista();
+
+            // Aquí revisa si la ronda terminó
+            if (rondaActual.isRondaFinalizada()) {
+                finalizarRonda();
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(gui, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Inicia el temporizador visual que actualiza la GUI cada segundo.
+     */
+    private void iniciarTemporizadorVisual() {
+        detenerTemporizadorVisual(); // esto es por si ya hay uno
+
+        timerGUI = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.setLblTiempo("Tiempo: " + temporizador.getTiempoRestante() + "s");
-                rondaActual.verificarTiempoPregunta();
-
-                if (rondaActual.tiempoAgotado()) {
-                    JOptionPane.showMessageDialog(gui, "⏰ ¡Se acabó el tiempo!");
-                    pasarASiguientePreguntaORonda();
-                } else if (rondaActual.isRondaFinalizada()) {
-                    pasarASiguientePreguntaORonda();
+                if (rondaActual.getTemporizador().isTiempoAgotado()) {
+                    siguientePregunta();
+                } else {
+                    gui.setLblTiempo("Tiempo: " + rondaActual.getTemporizador().getTiempoRestante() + "s");
                 }
             }
         });
-        timerActualizacion.start();
+
+        rondaActual.getTemporizador().iniciar();
+        timerGUI.start();
     }
 
     /**
-     * Maneja el evento del botón "Enviar": verifica la respuesta del usuario.
+     * Detiene el temporizador visual de la GUI.
      */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == gui.getBtnEnviar()) {
-            verificarRespuesta();
+    private void detenerTemporizadorVisual() {
+        if (timerGUI != null && timerGUI.isRunning()) {
+            timerGUI.stop();
         }
     }
 
     /**
-     * Verifica la respuesta del usuario. Si es correcta, asigna puntos y pasa a
-     * la siguiente. Si no, no hace nada (puedes agregar lógica para intentos si
-     * es necesario).
+     * Avanza a la siguiente pregunta o finaliza la ronda si no hay más.
      */
-    private void verificarRespuesta() {
-        try {
-            int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
-            if (rondaActual.isRespuestaCorrecta(respuestaUsuario)) {
-                // Registrar respuesta y asignar puntos
-                rondaActual.registrarRespuestaJugador(jugador.getIdJugador());
-                rondaActual.asignarPuntos(jugador);
-                JOptionPane.showMessageDialog(gui, "¡Respuesta correcta! Puntos asignados.");
-                pasarASiguientePreguntaORonda();
-            } else {
-                JOptionPane.showMessageDialog(gui, "Respuesta incorrecta. Intenta de nuevo.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(gui, "Por favor, ingresa un número válido.");
-        }
-    }
-
-    /**
-     * Pasa a la siguiente pregunta o ronda según corresponda.
-     */
-    private void pasarASiguientePreguntaORonda() {
-        temporizador.detener();
-
-        if (rondaActual.avanzarPregunta()) {
-            // Hay más preguntas
-            mostrarRondaYPregunta();
-            reiniciarTemporizador(30);
-        } else if (++contadorRondas <= 10) {
-            // Nueva ronda
-            ArrayList<Jugador> listaJugadores = new ArrayList<>();
-            listaJugadores.add(jugador);
-
-            rondaActual = new RondaPrueba(contadorRondas, listaJugadores, new Temporizador(30));
-            rondaActual.generarPreguntas(contadorRondas);
-            mostrarRondaYPregunta();
-            reiniciarTemporizador(30);
+    private void siguientePregunta() {
+        boolean hayMasPreguntas = rondaActual.avanzarPregunta();
+        if (hayMasPreguntas) {
+            iniciarTemporizadorVisual();
+            actualizarVista();
         } else {
-            // Fin del juego
-            timerActualizacion.stop();
-            JOptionPane.showMessageDialog(gui,
-                    "🎉 ¡Juego terminado! Puntaje final: " + jugador.getPuntaje());
+            finalizarRonda();
         }
     }
 
-    private void reiniciarTemporizador(int segundos) {
-        temporizador = new Temporizador(segundos);
-        temporizador.iniciar();
+    /**
+     * Actualiza los labels y limpia campos en la GUI.
+     */
+    private void actualizarVista() {
+        gui.setLblRonda("Ronda: " + numRonda);
+        gui.setLblPregunta(rondaActual.mostrarPregunta());
+        gui.setTxtResultadoUsuario("");
+        gui.setLblTiempo("Tiempo: " + rondaActual.getTemporizador().getTiempoRestante() + "s");
     }
 
+    /**
+     * Finaliza la ronda actual, mostrando puntaje y permitiendo continuar o
+     * salir.
+     */
+    private void finalizarRonda() {
+        detenerTemporizadorVisual();
+        rondaActual.getTemporizador().detener();
+
+        JOptionPane.showMessageDialog(gui,
+                "¡Ronda " + numRonda + " finalizada!\nPuntaje total: " + jugador.getPuntaje(),
+                "Fin de Ronda", JOptionPane.INFORMATION_MESSAGE);
+
+        int opcion = JOptionPane.showConfirmDialog(gui, "¿Deseas jugar otra ronda?", "Continuar", JOptionPane.YES_NO_OPTION);
+
+        if (opcion == JOptionPane.YES_OPTION && numRonda < 10) {
+            numRonda++;
+            iniciarJuego();
+        } else {
+            JOptionPane.showMessageDialog(gui, "Gracias por jugar. Puntaje final: " + jugador.getPuntaje());
+            System.exit(0);
+        }
+    }
 }

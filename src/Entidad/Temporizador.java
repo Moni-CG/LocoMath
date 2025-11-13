@@ -45,13 +45,11 @@ public class Temporizador implements Runnable {
     public int getDuracion() {
         return duracion;
     }
-    
 
     @Override
     public void run() {
         try {
             while (enCurso && tiempoRestante > 0) {
-                //System.out.println("Tiempo restante: " + tiempoRestante + "s");
                 Thread.sleep(1000);
                 tiempoRestante--;
             }
@@ -59,9 +57,8 @@ public class Temporizador implements Runnable {
             Thread.currentThread().interrupt();
         }
 
-        if (tiempoRestante <= 0) {
-            enCurso = false;
-            //System.out.println("¡Se agotó el tiempo!");
+        if (isTiempoAgotado()) {
+            detener();
         }
     }
 
