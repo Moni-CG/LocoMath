@@ -5,6 +5,7 @@ package Entidad;
  * @author Moni
  */
 public class Jugador {
+
     private int idJugador;
     private String usuario;
     private int puntaje;
@@ -71,8 +72,9 @@ public class Jugador {
     public void setTiempoRestante(int tiempoRestante) {
         this.tiempoRestante = tiempoRestante;
     }
-    
-    
-    
-    
+
+    public void agregarPuntos(int puntos) {
+        this.puntaje += puntos;
+    }
+
 }

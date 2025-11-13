@@ -42,6 +42,11 @@ public class Temporizador implements Runnable {
         return tiempoRestante <= 0;
     }
 
+    public int getDuracion() {
+        return duracion;
+    }
+    
+
     @Override
     public void run() {
         try {

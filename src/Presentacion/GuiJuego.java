@@ -11,10 +11,10 @@ public class GuiJuego extends javax.swing.JFrame {
 
     public GuiJuego() {
         initComponents();
-        
+
         panelJuego.setPreferredSize(new Dimension(400, 400));
-panelJuego.setMinimumSize(new Dimension(400, 400));
-panelJuego.setMaximumSize(new Dimension(400, 400));
+        panelJuego.setMinimumSize(new Dimension(400, 400));
+        panelJuego.setMaximumSize(new Dimension(400, 400));
 
     }
 
@@ -65,8 +65,6 @@ panelJuego.setMaximumSize(new Dimension(400, 400));
     public void setLblTiempo(String lblTiempo) {
         this.lblTiempo.setText(lblTiempo);
     }
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

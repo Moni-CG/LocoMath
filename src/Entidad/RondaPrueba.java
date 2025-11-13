@@ -18,6 +18,7 @@ public class RondaPrueba {
     private Temporizador temporizador;
     private String[] operacionesRonda;
     private boolean[] jugadoresRespondieron;
+    private int preguntaActual;
 
     public RondaPrueba(int idRonda, ArrayList<Jugador> listaJugadores, Temporizador temporizador) {
         this.idRonda = idRonda;
@@ -25,6 +26,11 @@ public class RondaPrueba {
         this.temporizador = temporizador;
         listaPreguntas = new ArrayList<>();
         jugadoresRespondieron = new boolean[listaJugadores.size()];
+        preguntaActual = 0;
+    }
+
+    public Temporizador getTemporizador() {
+        return temporizador;
     }
 
     public boolean tiempoAgotado() {
@@ -84,10 +90,14 @@ public class RondaPrueba {
     }
 
     public void asignarPuntos(Jugador jugador) {
-        if (temporizador.isTiempoAgotado()) {return;} //si se agoto tiempo no se asigna puntos
-        
-        if(jugadorRespondio(jugador.getIdJugador())){
-            
+        if (temporizador.isTiempoAgotado()) {
+            return;
+        } //si se agoto tiempo no se asigna puntos
+
+        if (jugadorRespondio(jugador.getIdJugador())) {
+            String tipoOperacion = operacionesRonda[preguntaActual];
+            jugador.agregarPuntos(puntosOperacion(tipoOperacion));
+            reiniciarRespuestas();
         }
     }
 
@@ -116,6 +126,47 @@ public class RondaPrueba {
         }
         jugadoresRespondieron[idJugador - 1] = true;
         return true;
+    }
+
+    public void verificarTiempoPregunta() {
+        if (temporizador.isTiempoAgotado()) {
+            System.out.println("Se acabó el tiempo." + (preguntaActual + 1));
+            preguntaActual++;
+            if (preguntaActual < listaPreguntas.size()) {
+                temporizador.detener();
+                temporizador = new Temporizador(temporizador.getDuracion()); // reinicia el tiempo
+                temporizador.iniciar();
+                reiniciarRespuestas();
+                System.out.println("Nueva pregunta: " + mostrarPregunta());
+            } else {
+                System.out.println("Ronda terminada.");
+            }
+        }
+    }
+
+    public boolean avanzarPregunta() {
+        if (preguntaActual < listaPreguntas.size() - 1) {
+            preguntaActual++;
+            reiniciarRespuestas();
+            return true;
+        }
+        return false; // Si no hay más preguntas, la ronda termina
+    }
+
+    public boolean isRespuestaCorrecta(int respuesta) {
+        return listaPreguntas.get(preguntaActual).getResultado() == respuesta;
+    }
+
+    public boolean isRondaFinalizada() {
+        return preguntaActual >= listaPreguntas.size(); //verifica si llegamos a la ultima pregunta de la ronda
+    }
+
+    public String mostrarPregunta() {
+        return listaPreguntas.get(preguntaActual).toString();
+    }
+
+    public String mostrarRonda() {
+        return "Ronda# " + idRonda;
     }
 
 }
