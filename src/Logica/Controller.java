@@ -46,7 +46,7 @@ public class Controller implements ActionListener {
 
         int duracionSegundos = 20; 
         Operacion operacion = new Operacion();
-        preguntaActual = new Pregunta(contadorPreguntas, operacion);
+        //preguntaActual = new Pregunta(contadorPreguntas, operacion);
         jugadores = new Jugador[]{new Jugador(1, "Fio")};
         rondaActual = new Ronda(contadorRondas, jugadores, duracionSegundos);
         rondaActual.iniciarRonda();

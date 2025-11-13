@@ -4,7 +4,8 @@ package Entidad;
  *
  * @author Moni
  */
-public class Temporizador implements Runnable  {
+public class Temporizador implements Runnable {
+
     private int duracion;
     private int tiempoRestante;
     private boolean enCurso;
@@ -17,7 +18,9 @@ public class Temporizador implements Runnable  {
     }
 
     public void iniciar() {
-        if (enCurso) return;
+        if (enCurso) {
+            return;
+        }
         enCurso = true;
         hilo = new Thread(this);
         hilo.start();
@@ -33,6 +36,10 @@ public class Temporizador implements Runnable  {
 
     public int getTiempoRestante() {
         return tiempoRestante;
+    }
+
+    public boolean isTiempoAgotado() {
+        return tiempoRestante <= 0;
     }
 
     @Override
@@ -52,5 +59,5 @@ public class Temporizador implements Runnable  {
             //System.out.println("¡Se agotó el tiempo!");
         }
     }
-    
+
 }

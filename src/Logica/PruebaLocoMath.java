@@ -1,4 +1,4 @@
-package Presentacion;
+package Logica;
 
 import Entidad.*;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class PruebaLocoMath {
 
         // Crear una ronda de 10 segundos
         RondaPrueba ronda = new RondaPrueba(1, jugadores, new Temporizador(20));
-        ronda.generarPreguntas(1);
+        ronda.generarPreguntas(6);
 
     }
 

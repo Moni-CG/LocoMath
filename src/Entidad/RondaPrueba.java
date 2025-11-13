@@ -17,12 +17,18 @@ public class RondaPrueba {
     private ArrayList<Jugador> listaJugadores;
     private Temporizador temporizador;
     private String[] operacionesRonda;
+    private boolean[] jugadoresRespondieron;
 
     public RondaPrueba(int idRonda, ArrayList<Jugador> listaJugadores, Temporizador temporizador) {
         this.idRonda = idRonda;
         this.listaJugadores = listaJugadores;
         this.temporizador = temporizador;
         listaPreguntas = new ArrayList<>(6);
+        jugadoresRespondieron = new boolean[listaJugadores.size()];
+    }
+
+    public boolean tiempoAgotado() {
+        return temporizador.isTiempoAgotado();
     }
 
     public void asignarOperacionesPorRonda(int idRonda) {
@@ -63,17 +69,18 @@ public class RondaPrueba {
     }
 
     public void generarPreguntas(int idRonda) {
-        
         asignarOperacionesPorRonda(idRonda); //Asigna operaciones de la ronda
         listaPreguntas.clear(); //limpia la lista de preguntas
 
-        for (int i = 0; i < listaPreguntas.size(); i++) {
+        for (int i = 0; i < 6; i++) {
             Pregunta pregunta = new Pregunta(i + 1);
             pregunta.generarOperacion(operacionesRonda[i]);
             listaPreguntas.add(pregunta);
-            System.out.println(pregunta.toString() + "\n");
         }
-
+    }
+    
+    public void asignarPuntos(){
+        
     }
 
 }
