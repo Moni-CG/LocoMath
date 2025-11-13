@@ -23,12 +23,16 @@ public class RondaPrueba {
         this.idRonda = idRonda;
         this.listaJugadores = listaJugadores;
         this.temporizador = temporizador;
-        listaPreguntas = new ArrayList<>(6);
+        listaPreguntas = new ArrayList<>();
         jugadoresRespondieron = new boolean[listaJugadores.size()];
     }
 
     public boolean tiempoAgotado() {
         return temporizador.isTiempoAgotado();
+    }
+
+    public void registrarRespuestaJugador(int idJugador) {
+        jugadoresRespondieron[idJugador - 1] = true;
     }
 
     public void asignarOperacionesPorRonda(int idRonda) {
@@ -78,9 +82,40 @@ public class RondaPrueba {
             listaPreguntas.add(pregunta);
         }
     }
-    
-    public void asignarPuntos(){
+
+    public void asignarPuntos(Jugador jugador) {
+        if (temporizador.isTiempoAgotado()) {return;} //si se agoto tiempo no se asigna puntos
         
+        if(jugadorRespondio(jugador.getIdJugador())){
+            
+        }
+    }
+
+    public void reiniciarRespuestas() {
+        for (int i = 0; i < jugadoresRespondieron.length; i++) {
+            jugadoresRespondieron[i] = false;
+        }
+    }
+
+    public int puntosOperacion(String tipoOperacion) {
+        if (tipoOperacion.equals("+") || tipoOperacion.equals("-")) {
+            return 100;
+        } else if (tipoOperacion.equals("x")) {
+            return 150;
+        } else if (tipoOperacion.equals("/")) {
+            return 200;
+        }
+        return 0;
+    }
+
+    public boolean jugadorRespondio(int idJugador) {
+        for (boolean respondio : jugadoresRespondieron) {
+            if (respondio) {
+                return false;
+            } //ya un jugador respondio primero
+        }
+        jugadoresRespondieron[idJugador - 1] = true;
+        return true;
     }
 
 }
