@@ -151,9 +151,6 @@ public class Ronda {
             reiniciarTiempo();
             return true;
         }
-
-        // No hay más preguntas, marcar fin de ronda
-        preguntaActual = listaPreguntas.size();
         return false;
     }
 
@@ -162,7 +159,7 @@ public class Ronda {
     }
 
     public boolean isRondaFinalizada() {
-        return preguntaActual >= listaPreguntas.size(); //verifica si llegamos a la ultima pregunta de la ronda
+        return preguntaActual >= listaPreguntas.size() - 1; //verifica si llegamos a la ultima pregunta de la ronda
     }
 
     public String mostrarPregunta() {

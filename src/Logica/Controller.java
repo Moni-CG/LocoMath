@@ -65,13 +65,13 @@ public class Controller implements ActionListener {
         try {
             int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
 
-            rondaActual.asignarPuntos(jugador, respuestaUsuario);
-            actualizarVista();
-
+            boolean asignaPuntos = rondaActual.asignarPuntos(jugador, respuestaUsuario);
             // Aquí revisa si la ronda terminó
-            if (rondaActual.isRondaFinalizada()) {
+            if (asignaPuntos) {
                 finalizarRonda();
+                return;
             }
+            actualizarVista();
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(gui, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
