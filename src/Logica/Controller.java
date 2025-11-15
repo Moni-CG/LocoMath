@@ -13,7 +13,7 @@ import java.util.*;
 public class Controller implements ActionListener {
 
     private GuiJuego gui;
-    private RondaPrueba rondaActual;
+    private Ronda rondaActual;
     private Jugador jugador;
     private Timer timerGUI; // Timer para actualizar el label del tiempo
     private int numRonda = 1; // ronda actual
@@ -42,7 +42,7 @@ public class Controller implements ActionListener {
         ArrayList<Jugador> jugadores = new ArrayList<>();
         jugadores.add(jugador);
 
-        rondaActual = new RondaPrueba(numRonda, jugadores, temporizador);
+        rondaActual = new Ronda(numRonda, jugadores, temporizador);
         rondaActual.generarPreguntas(numRonda);
 
         iniciarTemporizadorVisual();
