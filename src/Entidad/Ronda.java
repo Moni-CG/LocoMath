@@ -166,8 +166,4 @@ public class Ronda {
         return listaPreguntas.get(preguntaActual).toString();
     }
 
-    public String mostrarRonda() {
-        return "Ronda# " + idRonda;
-    }
-
 }
