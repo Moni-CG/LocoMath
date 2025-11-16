@@ -4,7 +4,7 @@ package Logica;
  *
  * @author fioli
  */
-public class Main {
+public class MainCliente {
 
     public static void main(String[] args) {
         new Controller();

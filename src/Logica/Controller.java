@@ -2,10 +2,13 @@ package Logica;
 
 import Presentacion.*;
 import Entidad.*;
+import Servidor.Cliente;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author fioli
@@ -18,6 +21,7 @@ public class Controller implements ActionListener {
     private Jugador jugador;
     private Timer timerGUI; // Timer para actualizar el label del tiempo
     private int numRonda = 1; // ronda actual
+    private Cliente cliente;
 
     public Controller() {
         login = new Login();
@@ -42,11 +46,15 @@ public class Controller implements ActionListener {
             procesarRespuesta();
         }
         if (e.getSource() == login.getBtnIngresar()) {
-            iniciarSesion();
+            try {
+                iniciarSesion();
+            } catch (Exception ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
-    public void iniciarSesion() {
+    public void iniciarSesion() throws Exception {
         String nombre = login.getJtxNombre().getText().trim();
 
         if (nombre.isEmpty()) {
@@ -57,6 +65,8 @@ public class Controller implements ActionListener {
         }
 
         jugador = new Jugador(1, nombre);
+        cliente = new Cliente("127.0.0.1", 5000, this);
+        cliente.enviarNombre(nombre);
         // Cerrar login y abrir juego
         login.dispose();
         abrirJuego();
@@ -71,7 +81,7 @@ public class Controller implements ActionListener {
      * Inicia el juego con la primera ronda y jugador.
      */
     private void iniciarJuego() {
-        
+
         Temporizador temporizador = new Temporizador(20); // duracion para cada 
         ArrayList<Jugador> jugadores = new ArrayList<>();
         jugadores.add(jugador);
@@ -91,6 +101,8 @@ public class Controller implements ActionListener {
             int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
 
             boolean asignaPuntos = rondaActual.asignarPuntos(jugador, respuestaUsuario);
+            cliente.enviarRespuesta(respuestaUsuario);
+
             // Aquí revisa si la ronda termino
             if (asignaPuntos) {
                 finalizarRonda();
@@ -180,4 +192,21 @@ public class Controller implements ActionListener {
             System.exit(0);
         }
     }
+
+    public void actualizarPregunta(String texto) {
+        gui.setLblPregunta(texto);
+    }
+
+    public void actualizarRonda(int r) {
+        gui.setLblRonda("Ronda: " + r);
+    }
+
+    public void actualizarPuntaje(String usuario, int puntaje) {
+        gui.setLblPuntaje(puntaje + "");
+    }
+
+    public void mostrarFin() {
+        JOptionPane.showMessageDialog(gui, "El juego ha terminado.");
+    }
+
 }

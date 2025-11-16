@@ -33,6 +33,10 @@ public class Ronda {
         return temporizador;
     }
 
+    public ArrayList<Jugador> getListaJugadores() {
+        return listaJugadores;
+    }
+
     public boolean tiempoAgotado() {
         return temporizador.isTiempoAgotado();
     }
