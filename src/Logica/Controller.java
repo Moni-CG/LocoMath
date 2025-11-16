@@ -13,16 +13,17 @@ import java.util.*;
 public class Controller implements ActionListener {
 
     private GuiJuego gui;
+    private Login login;
     private Ronda rondaActual;
     private Jugador jugador;
     private Timer timerGUI; // Timer para actualizar el label del tiempo
     private int numRonda = 1; // ronda actual
 
     public Controller() {
+        login = new Login();
         gui = new GuiJuego();
         initEvents();
-        gui.setVisible(true);
-        iniciarJuego();
+        login.setVisible(true);
     }
 
     /**
@@ -30,14 +31,47 @@ public class Controller implements ActionListener {
      */
     private void initEvents() {
         gui.getBtnEnviar().addActionListener(this);
+        login.getBtnIngresar().addActionListener(this);
+    }
+
+    /**
+     * Maneja el evento de los botones al dar click
+     */
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == gui.getBtnEnviar()) {
+            procesarRespuesta();
+        }
+        if (e.getSource() == login.getBtnIngresar()) {
+            iniciarSesion();
+        }
+    }
+
+    public void iniciarSesion() {
+        String nombre = login.getJtxNombre().getText().trim();
+
+        if (nombre.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(login,
+                    "Ingrese un nombre para continuar.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        jugador = new Jugador(1, nombre);
+        // Cerrar login y abrir juego
+        login.dispose();
+        abrirJuego();
+    }
+
+    private void abrirJuego() {
+        gui.setVisible(true);
+        iniciarJuego();
     }
 
     /**
      * Inicia el juego con la primera ronda y jugador.
      */
     private void iniciarJuego() {
-        jugador = new Jugador(1, "Jugador 1");
-
+        
         Temporizador temporizador = new Temporizador(20); // duracion para cada 
         ArrayList<Jugador> jugadores = new ArrayList<>();
         jugadores.add(jugador);
@@ -50,15 +84,6 @@ public class Controller implements ActionListener {
     }
 
     /**
-     * Maneja el evento de los botones al dar click
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == gui.getBtnEnviar()) {
-            procesarRespuesta();
-        }
-    }
-
-    /**
      * Procesa la respuesta del usuario.
      */
     private void procesarRespuesta() {
@@ -66,7 +91,7 @@ public class Controller implements ActionListener {
             int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
 
             boolean asignaPuntos = rondaActual.asignarPuntos(jugador, respuestaUsuario);
-            // Aquí revisa si la ronda terminó
+            // Aquí revisa si la ronda termino
             if (asignaPuntos) {
                 finalizarRonda();
                 return;
