@@ -154,6 +154,8 @@ public class Controller implements ActionListener {
         gui.setLblPregunta(rondaActual.mostrarPregunta());
         gui.setTxtResultadoUsuario("");
         gui.setLblTiempo("Tiempo: " + rondaActual.getTemporizador().getTiempoRestante() + "s");
+        gui.setLblNombre(jugador.getUsuario());
+        gui.setLblPuntaje(jugador.getPuntaje() + "");
     }
 
     /**
