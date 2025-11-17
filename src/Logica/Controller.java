@@ -17,10 +17,7 @@ public class Controller implements ActionListener {
 
     private GuiJuego gui;
     private Login login;
-    private Ronda rondaActual;
     private Jugador jugador;
-    private Timer timerGUI; // Timer para actualizar el label del tiempo
-    private int numRonda = 1; // ronda actual
     private Cliente cliente;
 
     public Controller() {
@@ -31,7 +28,7 @@ public class Controller implements ActionListener {
     }
 
     /**
-     * Inicializa los eventos de la interfaz.
+     * Asocia los listeners a la interfaz
      */
     private void initEvents() {
         gui.getBtnEnviar().addActionListener(this);
@@ -39,12 +36,15 @@ public class Controller implements ActionListener {
     }
 
     /**
-     * Maneja el evento de los botones al dar click
+     * Manejo de eventos
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == gui.getBtnEnviar()) {
             procesarRespuesta();
         }
+
         if (e.getSource() == login.getBtnIngresar()) {
             try {
                 iniciarSesion();
@@ -54,159 +54,80 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Inicia sesión del jugador y establece conexión con el servidor.
+     */
     public void iniciarSesion() throws Exception {
         String nombre = login.getJtxNombre().getText().trim();
 
         if (nombre.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(login,
+            JOptionPane.showMessageDialog(login,
                     "Ingrese un nombre para continuar.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        jugador = new Jugador(1, nombre);
+        jugador = new Jugador(0, nombre); // el ID real lo asigna el servidor
         cliente = new Cliente("127.0.0.1", 5000, this);
+
         cliente.enviarNombre(nombre);
-        // Cerrar login y abrir juego
+
         login.dispose();
-        abrirJuego();
-    }
-
-    private void abrirJuego() {
         gui.setVisible(true);
-        iniciarJuego();
+
+        // Mostramos nombre en GUI desde el inicio
+        gui.setLblNombre(nombre);
     }
 
     /**
-     * Inicia el juego con la primera ronda y jugador.
-     */
-    private void iniciarJuego() {
-
-        Temporizador temporizador = new Temporizador(20); // duracion para cada 
-        ArrayList<Jugador> jugadores = new ArrayList<>();
-        jugadores.add(jugador);
-
-        rondaActual = new Ronda(numRonda, jugadores, temporizador);
-        rondaActual.generarPreguntas(numRonda);
-
-        iniciarTemporizadorVisual();
-        actualizarVista();
-    }
-
-    /**
-     * Procesa la respuesta del usuario.
+     * Envía la respuesta del usuario al servidor (solo eso).
      */
     private void procesarRespuesta() {
         try {
-            int respuestaUsuario = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
-
-            boolean asignaPuntos = rondaActual.asignarPuntos(jugador, respuestaUsuario);
-            cliente.enviarRespuesta(respuestaUsuario);
-
-            // Aquí revisa si la ronda termino
-            if (asignaPuntos) {
-                finalizarRonda();
-                return;
-            }
-            actualizarVista();
+            int respuesta = Integer.parseInt(gui.getTxtResultadoUsuario().trim());
+            cliente.enviarRespuesta(respuesta);
+            gui.setTxtResultadoUsuario("");
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(gui, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(gui,
+                    "Por favor ingrese un número válido.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    /**
-     * Inicia el temporizador visual que actualiza la GUI cada segundo.
-     */
-    private void iniciarTemporizadorVisual() {
-        detenerTemporizadorVisual(); // esto es por si ya hay uno
+    // ----------------------------
+    // MÉTODOS QUE LLAMA EL CLIENTE
+    // ----------------------------
 
-        timerGUI = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (rondaActual.getTemporizador().isTiempoAgotado()) {
-                    siguientePregunta();
-                } else {
-                    gui.setLblTiempo("Tiempo: " + rondaActual.getTemporizador().getTiempoRestante() + "s");
-                }
-            }
-        });
-
-        rondaActual.getTemporizador().iniciar();
-        timerGUI.start();
-    }
-
-    /**
-     * Detiene el temporizador visual de la GUI.
-     */
-    private void detenerTemporizadorVisual() {
-        if (timerGUI != null && timerGUI.isRunning()) {
-            timerGUI.stop();
-        }
-    }
-
-    /**
-     * Avanza a la siguiente pregunta o finaliza la ronda si no hay más.
-     */
-    private void siguientePregunta() {
-        boolean hayMasPreguntas = rondaActual.avanzarPregunta();
-        if (hayMasPreguntas) {
-            iniciarTemporizadorVisual();
-            actualizarVista();
-        } else {
-            finalizarRonda();
-        }
-    }
-
-    /**
-     * Actualiza los labels y limpia campos en la GUI.
-     */
-    private void actualizarVista() {
-        gui.setLblRonda("Ronda: " + numRonda);
-        gui.setLblPregunta(rondaActual.mostrarPregunta());
-        gui.setTxtResultadoUsuario("");
-        gui.setLblTiempo("Tiempo: " + rondaActual.getTemporizador().getTiempoRestante() + "s");
-        gui.setLblNombre(jugador.getUsuario());
-        gui.setLblPuntaje(jugador.getPuntaje() + "");
-    }
-
-    /**
-     * Finaliza la ronda actual, mostrando puntaje y permitiendo continuar o
-     * salir.
-     */
-    private void finalizarRonda() {
-        detenerTemporizadorVisual();
-        rondaActual.getTemporizador().detener();
-
-        JOptionPane.showMessageDialog(gui,
-                "¡Ronda " + numRonda + " finalizada!\nPuntaje total: " + jugador.getPuntaje(),
-                "Fin de Ronda", JOptionPane.INFORMATION_MESSAGE);
-
-        int opcion = JOptionPane.showConfirmDialog(gui, "¿Deseas jugar otra ronda?", "Continuar", JOptionPane.YES_NO_OPTION);
-
-        if (opcion == JOptionPane.YES_OPTION && numRonda < 10) {
-            numRonda++;
-            iniciarJuego();
-        } else {
-            JOptionPane.showMessageDialog(gui, "Gracias por jugar. Puntaje final: " + jugador.getPuntaje());
-            System.exit(0);
-        }
-    }
-
+    /** Actualiza la pregunta en pantalla */
     public void actualizarPregunta(String texto) {
         gui.setLblPregunta(texto);
     }
 
+    /** Actualiza la ronda */
     public void actualizarRonda(int r) {
         gui.setLblRonda("Ronda: " + r);
     }
 
+    /** Actualiza el puntaje */
     public void actualizarPuntaje(String usuario, int puntaje) {
-        gui.setLblPuntaje(puntaje + "");
+
+        if (usuario.equals(jugador.getUsuario())) {
+            jugador.setPuntaje(puntaje);
+        }
+
+        gui.setLblPuntaje(String.valueOf(puntaje));
     }
 
+    /** Recibe mensaje del servidor cuando termina el juego */
     public void mostrarFin() {
-        JOptionPane.showMessageDialog(gui, "El juego ha terminado.");
-    }
+        JOptionPane.showMessageDialog(gui,
+                "El juego ha terminado.\nPuntaje final: " + jugador.getPuntaje(),
+                "Fin del Juego",
+                JOptionPane.INFORMATION_MESSAGE);
 
+        System.exit(0);
+    }
 }

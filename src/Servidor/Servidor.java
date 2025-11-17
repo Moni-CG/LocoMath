@@ -36,7 +36,7 @@ public class Servidor {
                     cliente.start();
                     System.out.println("Jugador conectado. Total: " + clientesConectados.size());
 
-                    if (clientesConectados.size() == 5) {
+                    if (clientesConectados.size() >= 1) {
                         iniciarRonda();
                     }
                 }
