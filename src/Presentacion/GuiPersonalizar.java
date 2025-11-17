@@ -4,10 +4,10 @@
  */
 package Presentacion;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
-
-
 
 /**
  *
@@ -15,9 +15,36 @@ import javax.swing.JSpinner.DefaultEditor;
  */
 public class GuiPersonalizar extends javax.swing.JFrame {
 
-  
     public GuiPersonalizar() {
         initComponents();
+    }
+
+    public JButton getBtnJugar() {
+        return btnJugar;
+    }
+
+    public void setBtnJugar(JButton btnJugar) {
+        this.btnJugar = btnJugar;
+    }
+
+    public JPanel getPanelPersonalizar() {
+        return panelPersonalizar;
+    }
+
+    public void setPanelPersonalizar(JPanel panelPersonalizar) {
+        this.panelPersonalizar = panelPersonalizar;
+    }
+
+    public int getSpinCantidadJugadores() {
+        return (int) spinCantidadJugadores.getValue();
+    }
+
+    public int getSpinCantidadRondas() {
+        return (int) spinCantidadRondas.getValue();
+    }
+
+    public int getSpinCantidadTiempo() {
+        return (int) spinCantidadTiempo.getValue();
     }
 
     @SuppressWarnings("unchecked")
@@ -119,14 +146,6 @@ public class GuiPersonalizar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiPersonalizar().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnJugar;

@@ -14,8 +14,6 @@ import java.net.*;
  */
 public class HiloCliente extends Thread {
 
-    private static int contadorId = 1; // contador de IDs para cada jugador
-
     private Socket socket;
     private Servidor servidor;
     private BufferedReader entrada;
@@ -41,30 +39,30 @@ public class HiloCliente extends Thread {
     @Override
     public void run() {
         try {
-            // Pedimos el nombre al jugador
             salida.println("NOMBRE?");
             String nombre = entrada.readLine();
-
-            // Generamos un ID único para el jugador
-            int idJugador;
-            synchronized (HiloCliente.class) { // sincroniza acceso al contador
-                idJugador = contadorId++;
-            }
-
-            jugador = new Jugador(idJugador, nombre);
+            jugador = new Jugador(servidor.generarIdJugador(), nombre);
 
             salida.println("BIENVENIDO|" + nombre);
 
             String linea;
             while ((linea = entrada.readLine()) != null) {
+
                 if (linea.startsWith("RESPUESTA|")) {
                     int respuesta = Integer.parseInt(linea.split("\\|")[1]);
                     servidor.recibirRespuesta(jugador, respuesta);
                 }
+
             }
 
         } catch (Exception e) {
             System.out.println("Jugador desconectado: " + (jugador != null ? jugador.getUsuario() : "desconocido"));
+        } finally {
+            servidor.removerCliente(this);
+            try {
+                socket.close();
+            } catch (IOException ex) {
+            }
         }
     }
 }

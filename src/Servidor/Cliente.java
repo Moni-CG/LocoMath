@@ -49,6 +49,18 @@ public class Cliente {
                         controller.actualizarRonda(Integer.parseInt(linea.split("\\|")[1]));
                     }
 
+                    if (linea.startsWith("TIEMPO|")) {
+                        int tiempo = Integer.parseInt(linea.split("\\|")[1]);
+                        controller.actualizarTiempo(tiempo);
+                    }
+
+                    if (linea.startsWith("GANADOR|")) {
+                        String[] data = linea.split("\\|");
+                        String nombre = data[1];
+                        int puntaje = Integer.parseInt(data[2]);
+                        controller.mostrarGanador(nombre, puntaje);
+                    }
+
                     if (linea.startsWith("FINJUEGO|")) {
                         controller.mostrarFin();
                     }
@@ -67,4 +79,13 @@ public class Cliente {
     public void enviarNombre(String nombre) {
         salida.println(nombre);
     }
+
+    public void cerrarConexion() {
+        try {
+            salida.println("CERRAR");
+            socket.close();
+        } catch (Exception e) {
+        }
+    }
+
 }

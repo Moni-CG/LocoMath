@@ -28,6 +28,9 @@ public class Temporizador implements Runnable {
 
     public void detener() {
         enCurso = false;
+        if (hilo != null && hilo.isAlive()) {
+            hilo.interrupt();
+        }
     }
 
     public boolean isEnCurso() {
@@ -44,6 +47,14 @@ public class Temporizador implements Runnable {
 
     public int getDuracion() {
         return duracion;
+    }
+
+    public void reiniciar() {
+        detener(); // detiene hilo previo
+        tiempoRestante = duracion;
+        enCurso = true;
+        hilo = new Thread(this);
+        hilo.start();
     }
 
     @Override

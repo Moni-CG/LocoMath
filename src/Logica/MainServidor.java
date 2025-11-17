@@ -14,8 +14,12 @@ public class MainServidor {
 
     public static void main(String[] args) {
         try {
-            Servidor servidor = new Servidor(5000); // puerto que usan los clientes
-            servidor.iniciar();
+            Servidor servidor = new Servidor(5000); // inicia servidor
+            servidor.iniciar(); // hilo que acepta conexiones
+
+            // Abrimos la GUI de personalización
+            new ControllerPersonalizar(servidor);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

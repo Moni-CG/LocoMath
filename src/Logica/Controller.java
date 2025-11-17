@@ -100,34 +100,52 @@ public class Controller implements ActionListener {
     // ----------------------------
     // MÉTODOS QUE LLAMA EL CLIENTE
     // ----------------------------
-
-    /** Actualiza la pregunta en pantalla */
+    /**
+     * Actualiza la pregunta en pantalla
+     */
     public void actualizarPregunta(String texto) {
         gui.setLblPregunta(texto);
     }
 
-    /** Actualiza la ronda */
+    /**
+     * Actualiza la ronda
+     */
     public void actualizarRonda(int r) {
         gui.setLblRonda("Ronda: " + r);
     }
 
-    /** Actualiza el puntaje */
-    public void actualizarPuntaje(String usuario, int puntaje) {
+    /**
+     * Actualiza el tiempo
+     */
+    public void actualizarTiempo(int tiempo) {
+        gui.setLblTiempo("Tiempo: " + tiempo + "s");
+    }
 
+    /**
+     * Actualiza el puntaje
+     */
+    public void actualizarPuntaje(String usuario, int puntaje) {
         if (usuario.equals(jugador.getUsuario())) {
             jugador.setPuntaje(puntaje);
+            gui.setLblPuntaje(String.valueOf(puntaje));
         }
-
-        gui.setLblPuntaje(String.valueOf(puntaje));
     }
 
-    /** Recibe mensaje del servidor cuando termina el juego */
+    /**
+     * Recibe mensaje del servidor cuando termina el juego
+     */
     public void mostrarFin() {
-        JOptionPane.showMessageDialog(gui,
-                "El juego ha terminado.\nPuntaje final: " + jugador.getPuntaje(),
-                "Fin del Juego",
-                JOptionPane.INFORMATION_MESSAGE);
-
+        cliente.cerrarConexion();
         System.exit(0);
     }
+
+    public void mostrarGanador(String nombre, int puntaje) {
+        JOptionPane.showMessageDialog(gui,
+                "GANADOR DE LA PARTIDA\n"
+                + "Jugador: " + nombre + "\n"
+                + "Puntaje: " + puntaje,
+                "Resultado Final",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }

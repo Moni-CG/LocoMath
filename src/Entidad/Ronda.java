@@ -139,12 +139,7 @@ public class Ronda {
 
     public void reiniciarTiempo() {
         if (temporizador != null) {
-            temporizador.detener(); // Detiene el temporizador actual
-            temporizador = new Temporizador(temporizador.getDuracion()); // Crea uno nuevo con la misma duración
-            temporizador.iniciar(); // Lo vuelve a iniciar
-            System.out.println("Temporizador reiniciado a " + temporizador.getDuracion() + " segundos.");
-        } else {
-            System.out.println("No hay un temporizador asignado para reiniciar.");
+            temporizador.reiniciar();
         }
     }
 
